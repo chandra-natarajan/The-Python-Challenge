@@ -4,15 +4,14 @@ Created on Sat Aug 27 11:34:05 2016
 
 @author: Mouli
 """
-import urllib.request
+from urllib.request import urlopen
 import re
 
-fname = 'text.txt'
-urllib.request.urlretrieve('http://www.pythonchallenge.com/pc/def/equality.html', fname)
-with open(fname) as f:
-    content = f.readlines()
-for line in content:
-    p = re.compile(r'[\sa-z][A-Z]{3}([a-z])[A-Z]{3}[\sa-z]')
-    x = p.findall(line)
-    if x:
-        print(x)
+p = re.compile(r'[\sa-z][A-Z]{3}([a-z])[A-Z]{3}[\sa-z]')
+
+with urlopen('http://www.pythonchallenge.com/pc/def/equality.html') as response:
+	for line in response:
+		line = line.decode('utf-8')  # Decoding the binary data to text.
+		x = p.findall(line)
+		if x:
+			print(x)
